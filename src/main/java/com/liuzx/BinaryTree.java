@@ -1,9 +1,6 @@
 package com.liuzx;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * @Author: liuzx
@@ -82,6 +79,63 @@ public class BinaryTree {
             }
         }
         return list;
+    }
+
+    /**
+     * @Author liuzx
+     * @Date 2019/8/12 10:21
+     * @Description 层次遍历
+     */
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> list = new ArrayList<>();
+        if(root==null){
+            return list;
+        }
+        Queue<TreeNode> levelNodes = new LinkedList<>();
+        levelNodes.add(root);
+        while ( !levelNodes.isEmpty()) {
+            int size = levelNodes.size();
+            List<Integer> datas = new ArrayList<>(size);
+            for (int i = 0; i < size; i++) {
+                TreeNode node = levelNodes.poll();
+                datas.add(node.val);
+                if (node.left != null) {
+                    levelNodes.add(node.left);
+                }
+                if (node.right != null) {
+                    levelNodes.add(node.right);
+                }
+            }
+            list.add(datas);
+        }
+        return list;
+    }
+
+    /**
+     * @Author liuzx
+     * @Date 2019/8/12 10:21
+     * @Description 层次遍历
+     */
+    public List<List<Integer>> levelOrder2(TreeNode root) {
+        List<List<Integer>> list = new ArrayList<>();
+        if (root == null) {
+            return list;
+        }
+        DFSHelper(root,0,list);
+        return list;
+    }
+
+    private void DFSHelper(TreeNode node, int level, List<List<Integer>> list) {
+        if(list.size()<(level+1)){
+            list.add(new ArrayList<>());
+        }
+        list.get(level).add(node.val);
+        if(node.left!=null){
+            DFSHelper(node.left,level+1,list);
+        }
+        if(node.right!=null){
+            DFSHelper(node.right,level+1,list);
+        }
     }
 
     public class TreeNode {
