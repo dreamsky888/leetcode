@@ -8,6 +8,7 @@ import java.util.*;
  * @Description:
  **/
 public class BinaryTree {
+
     /**
      * @Author liuzx
      * @Date 2019/8/9 15:29
@@ -267,8 +268,7 @@ public class BinaryTree {
      * @Date 2019/8/19 11:36
      * @Description 根据一棵树的中序遍历与后序遍历构造二叉树。
      * <p>
-     * 注意:
-     * 你可以假设树中没有重复的元素。
+     * 注意: 你可以假设树中没有重复的元素。
      */
     public TreeNode buildTree(int[] inorder, int[] postorder) {
         if (inorder == null || inorder.length == 0) {
@@ -277,7 +277,8 @@ public class BinaryTree {
         return buildTreeHelper(inorder, 0, inorder.length - 1, postorder, 0, postorder.length - 1);
     }
 
-    private TreeNode buildTreeHelper(int[] inorder, int iBegin, int iEnd, int[] postorder, int pBegin, int pEnd) {
+    private TreeNode buildTreeHelper(int[] inorder, int iBegin, int iEnd, int[] postorder,
+        int pBegin, int pEnd) {
         int rootValue = postorder[pEnd];
         TreeNode root = new TreeNode(rootValue);
         if (iBegin == iEnd) {
@@ -292,11 +293,13 @@ public class BinaryTree {
         }
         if (iBegin < rootIndex) {
             int pLeftEnd = pBegin + rootIndex - 1 - iBegin;
-            root.left = buildTreeHelper(inorder, iBegin, rootIndex - 1, postorder, pBegin, pLeftEnd);
+            root.left = buildTreeHelper(inorder, iBegin, rootIndex - 1, postorder, pBegin,
+                pLeftEnd);
         }
         if (rootIndex < iEnd) {
             int pRightBegin = pEnd + rootIndex - iEnd;
-            root.right = buildTreeHelper(inorder, rootIndex + 1, iEnd, postorder, pRightBegin, pEnd - 1);
+            root.right = buildTreeHelper(inorder, rootIndex + 1, iEnd, postorder, pRightBegin,
+                pEnd - 1);
         }
         return root;
     }
@@ -306,14 +309,14 @@ public class BinaryTree {
      * @Date 2019/8/19 13:56
      * @Description 根据一棵树的前序遍历与中序遍历构造二叉树。
      * <p>
-     * 注意:
-     * 你可以假设树中没有重复的元素。
+     * 注意: 你可以假设树中没有重复的元素。
      */
     public TreeNode preBuildTree(int[] preorder, int[] inorder) {
         return buildTreeHelper2(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1);
     }
 
-    private TreeNode buildTreeHelper2(int[] preorder, int pBegin, int pEnd, int[] inorder, int iBegin, int iEnd) {
+    private TreeNode buildTreeHelper2(int[] preorder, int pBegin, int pEnd, int[] inorder,
+        int iBegin, int iEnd) {
         if (iBegin > iEnd) {
             return null;
         }
@@ -326,8 +329,10 @@ public class BinaryTree {
                 break;
             }
         }
-        root.left = buildTreeHelper2(preorder, pBegin + 1, rootIndex + pBegin - iBegin, inorder, iBegin, rootIndex - 1);
-        root.right = buildTreeHelper2(preorder, rootIndex + pBegin - iBegin + 1, pEnd, inorder, rootIndex + 1, iEnd);
+        root.left = buildTreeHelper2(preorder, pBegin + 1, rootIndex + pBegin - iBegin, inorder,
+            iBegin, rootIndex - 1);
+        root.right = buildTreeHelper2(preorder, rootIndex + pBegin - iBegin + 1, pEnd, inorder,
+            rootIndex + 1, iEnd);
         return root;
     }
 
@@ -417,6 +422,7 @@ public class BinaryTree {
 
 
     public class TreeNode {
+
         int val;
         TreeNode left;
         TreeNode right;
