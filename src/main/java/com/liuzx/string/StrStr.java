@@ -72,7 +72,7 @@ public class StrStr {
             int j = hIndex;
             for (int nIndex = 0; nIndex < needle.length(); nIndex++, j++) {
                 if (haystack.charAt(j) != needle.charAt(nIndex)) {
-                    if(hIndex+nLength>=hLength){
+                    if (hIndex + nLength >= hLength) {
                         return -1;
                     }
                     Integer distance = map.get(haystack.charAt(hIndex + nLength));
@@ -103,28 +103,44 @@ public class StrStr {
         if (needle.equals("")) {
             return 0;
         }
-        int[] next = new int[needle.length()];
-        next[0] = -1;
-        next[1] = 0;
-        //TODO KMP算法的next数组如何算
-        for (int i = 0; i < haystack.length() - needle.length() + 1; i++) {
-
-            for (int nIndex = 0; nIndex < needle.length(); nIndex++, i++) {
-                if (haystack.charAt(i) != needle.charAt(nIndex)) {
-                    break;
+        int[] next = getNext(needle);
+        int i = 0, j = 0;
+        while (i < haystack.length()) {
+            if (j == -1) {
+                i++;
+                j = 0;
+            } else if (haystack.charAt(i) == needle.charAt(j)) {
+                if (j == needle.length() - 1) {
+                    return i - j;
                 }
-                if (nIndex == needle.length() - 1) {
-                    return i;
-                }
-
+                i++;
+                j++;
+            } else {
+                j = next[j];
             }
         }
         return -1;
     }
 
+    private int[] getNext(String needle) {
+        int[] next = new int[needle.length()];
+        next[0] = -1;
+        int i = 0, j = -1;
+        while (i < needle.length() - 1) {
+            if (j == -1 || needle.charAt(i) == needle.charAt(j)) {
+                i++;
+                j++;
+                next[i] = j;
+            } else {
+                j = next[j];
+            }
+        }
+        return next;
+    }
+
     public static void main(String[] args) {
         StrStr strStr = new StrStr();
-        int i = strStr.strStr2("hello", "ll");
+        int i = strStr.strStr3("aaa", "aaa");
         System.out.println(i);
     }
 }
